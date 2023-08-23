@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { body, oneOf, validationResult } from 'express-validator'
+import { body } from 'express-validator'
 import { validateRequest } from './modules/validation'
 import { createProduct, deleteProduct, getProduct, getProducts, updateProduct } from './handlers/product'
 import { createUpdate, deleteUpdate, getProductUpdates, getUpdate, updateUpdate } from './handlers/update'
@@ -17,7 +17,12 @@ router.put('/product/:id', [
 ], updateProduct)
 
 router.post('/product', [
-    body('name').isString(), validateRequest
+    body('name').trim().isString().withMessage("Product name must be a string")
+        .isLength({
+            max: 255,
+            min: 1,
+        }).withMessage("Product name must be between 1 and 255 characters long"),
+    validateRequest
 ], createProduct)
 
 router.delete('/product/:id', deleteProduct)

@@ -1,7 +1,7 @@
 import prisma from "../db";
 import { comparePasswordsAsync, createJWT, hashPasswordAsync } from "../modules/auth";
 
-export async function createNewUser(req, res) {
+export async function createNewUser(req, res, next) {
     const receivedUser = req.body
     if (!receivedUser.username || !receivedUser.password) {
         res.status(400).json({
@@ -9,16 +9,25 @@ export async function createNewUser(req, res) {
         })
         return
     }
-    const user = await prisma.user.create({
-        data: {
-            username: receivedUser.username,
-            password: await hashPasswordAsync(receivedUser.password)
+    try {
+        const user = await prisma.user.create({
+            data: {
+                username: receivedUser.username,
+                password: await hashPasswordAsync(receivedUser.password)
+            }
+        })
+        const token = createJWT(user)
+        res.status(201).json({
+            token
+        })
+    } catch (error) {
+        if (error.code === "P2002") {
+            error.type = "validation"
+            error.message = "Username already exists"
+            return next(error)
         }
-    })
-    const token = createJWT(user)
-    res.status(201).json({
-        token
-    })
+        next(new Error("Something went wrong"))
+    }
 }
 
 export async function signin(req, res) {

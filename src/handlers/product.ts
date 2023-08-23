@@ -32,13 +32,19 @@ export async function getProduct(req, res) {
 
 export async function createProduct(req, res) {
     const userId = req.user.id
-    const product = await prisma.product.create({
-        data: {
-            name: req.body.name,
-            belongsToId: userId,
-        }
-    })
-    res.status(201).json({ data: product })
+    try {
+        const product = await prisma.product.create({
+            data: {
+                name: req.body.name,
+                belongsToId: userId,
+            }
+        })
+        res.status(201).json({ data: product })
+    } catch (error) {
+        if (error.code = "P2000")
+            return res.status(400).json({ message: "Product name exceeds maximum length of 255 characters" })
+        res.status(500).json({ message: "Something went wrong" })
+    }
 }
 
 export async function updateProduct(req, res) {
