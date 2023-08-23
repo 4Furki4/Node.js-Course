@@ -1,26 +1,29 @@
 import { Router } from 'express'
 import { body, oneOf, validationResult } from 'express-validator'
 import { validateRequest } from './modules/validation'
+import { createProduct, deleteProduct, getProduct, getProducts, updateProduct } from './handlers/product'
 const router = Router()
 
 /**
  * Product Routes
  */
-router.get('/product', (req, res) => {
-    res.status(200).json({ message: "Hello World" })
-})
-router.get('/product/:id', () => { })
+router.get('/product', getProducts)
+
+router.get('/product/:id', getProduct)
+
 router.put('/product/:id', [
     body('name').isString(), validateRequest
-], (req, res) => {
-    res.status(200).json({ message: "Hello World" })
-})
+], updateProduct)
+
 router.post('/product', [
     body('name').isString(), validateRequest
-], () => { })
-router.delete('/product/:id', () => { })
+], createProduct)
+
+router.delete('/product/:id', deleteProduct)
+
+
 /**
- * Product Routes
+ * Update Routes
  */
 router.get('/update', () => { })
 router.get('/update/:id', () => { })
