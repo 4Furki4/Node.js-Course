@@ -1,11 +1,15 @@
 {
     "compilerOptions": {
         "sourceMap": true,
-        "outDir": "dist",
-        "strict": false,
         "lib": [
             "esnext"
         ],
+        "outDir": "dist",
+        "strict": false,
         "esModuleInterop": true
-    }
+    },
+    "files": [
+        "index.d.ts",
+        "express-tests.ts"
+    ]
 }

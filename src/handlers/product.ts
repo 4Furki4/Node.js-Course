@@ -15,7 +15,7 @@ export async function getProducts(req, res) {
             products: true
         }
     })
-    res.status(200).json({ data: userWithProducts.products })
+    res.status(200).json({ data: userWithProducts?.products })
 }
 
 export async function getProduct(req, res) {
