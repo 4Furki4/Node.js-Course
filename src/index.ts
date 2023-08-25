@@ -1,6 +1,6 @@
 import app from "./server"
 import * as dotenv from "dotenv"
-
+import config from "./config"
 // these are the global error handlers for the errors that are thrown in the app that are not caught
 process.on('uncaughtException', (err) => {
     console.log(err)
@@ -12,6 +12,6 @@ process.on('unhandledRejection', (err) => {
 })
 
 dotenv.config()
-app.listen(3000, () => {
-    console.log("Server is running on port 3000")
+app.listen(config.port, () => {
+    console.log("Server is running on port", config.port)
 })
