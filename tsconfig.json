@@ -1,15 +1,16 @@
 {
     "compilerOptions": {
         "sourceMap": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "strict": false,
         "lib": [
             "esnext"
         ],
-        "outDir": "dist",
-        "strict": false,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "declaration": true
     },
-    "files": [
-        "index.d.ts",
-        "express-tests.ts"
+    "include": [
+        "src/**/*.ts"
     ]
 }
